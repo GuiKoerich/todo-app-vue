@@ -2,7 +2,7 @@
     <div id="app">
         <h1>Tarefas</h1>
         <NewTask @newTask="addTask" />
-        <TaskGrid :tasks="tasks"/>
+        <TaskGrid @taskDeleted="deleteTask" :tasks="tasks"/>
     </div>
 </template>
 
@@ -15,20 +15,7 @@ export default {
 
     data() {
         return {
-            tasks: [
-                {   
-                    name: 'Estudar VueJS', 
-                    done: false
-                },
-                {   
-                    name: 'Estudar MongoDB',
-                    done: false
-                },
-                {   
-                    name: 'Estudar Java',
-                    done: true
-                }
-            ],
+            tasks: [],
         }
     },
 
@@ -43,6 +30,10 @@ export default {
                     done: false,
                 })
             }
+        },
+
+        deleteTask(i) {
+            this.tasks.splice(i, 1);
         }
     }
 }
