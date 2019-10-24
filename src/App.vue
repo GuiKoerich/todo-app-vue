@@ -1,15 +1,18 @@
 <template>
     <div id="app">
         <h1>Tarefas</h1>
+        <NewTask @newTask="addTask" />
         <TaskGrid :tasks="tasks"/>
     </div>
 </template>
 
 <script>
-import TaskGrid from './components/TaskGrid.vue'
+import NewTask from './components/NewTask'
+import TaskGrid from './components/TaskGrid'
 
 export default {
-    components: { TaskGrid, },
+    components: { NewTask, TaskGrid, },
+
     data() {
         return {
             tasks: [
@@ -26,6 +29,20 @@ export default {
                     done: true
                 }
             ],
+        }
+    },
+
+    methods: {
+        addTask(task) {
+            let sameName = t => t.name === task.name;
+            let reallyNew = this.tasks.filter(sameName).length == 0;
+
+            if(reallyNew) {
+                this.tasks.push({
+                    name: task.name,
+                    done: false,
+                })
+            }
         }
     }
 }
