@@ -1,13 +1,36 @@
 <template>
     <div id="app">
         <h1>Tarefas</h1>
-
+        <TaskGrid :tasks="tasks"/>
     </div>
 </template>
 
 <script>
-export default {
+import TaskGrid from './components/TaskGrid.vue'
 
+export default {
+    components: { TaskGrid, },
+    data() {
+        return {
+            tasks: [
+                {   
+                    id: 3,
+                    name: 'Estudar VueJS', 
+                    done: false
+                },
+                {   
+                    id: 2,
+                    name: 'Estudar MongoDB',
+                    done: false
+                },
+                {   
+                    id: 1,
+                    name: 'Estudar Java',
+                    done: true
+                }
+            ],
+        }
+    }
 }
 </script>
 
