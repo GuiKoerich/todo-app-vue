@@ -14,17 +14,14 @@ export default {
         return {
             tasks: [
                 {   
-                    id: 3,
                     name: 'Estudar VueJS', 
                     done: false
                 },
                 {   
-                    id: 2,
                     name: 'Estudar MongoDB',
                     done: false
                 },
                 {   
-                    id: 1,
                     name: 'Estudar Java',
                     done: true
                 }
