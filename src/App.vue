@@ -1,13 +1,74 @@
 <template>
     <div id="app">
         <h1>Tarefas</h1>
-
+        <TaskProgress :progress="progress" />
+        <NewTask @newTask="addTask" />
+        <TaskGrid @taskDeleted="deleteTask" 
+                  @taskStateChanged="changeStatusTask" 
+                  :tasks="tasks"/>
     </div>
 </template>
 
 <script>
-export default {
+import NewTask from './components/NewTask'
+import TaskGrid from './components/TaskGrid'
+import TaskProgress from './components/TaskProgress'
 
+export default {
+    components: { NewTask, TaskGrid, TaskProgress, },
+
+    data() {
+        return {
+            tasks: [],
+        }
+    },
+
+    methods: {
+        addTask(task) {
+            let sameName = t => t.name === task.name;
+            let reallyNew = this.tasks.filter(sameName).length == 0;
+
+            if(reallyNew) {
+                this.tasks.push({
+                    name: task.name,
+                    done: false,
+                })
+            }
+        },
+
+        deleteTask(i) {
+            this.tasks.splice(i, 1);
+        },
+
+        changeStatusTask(i) {
+            this.tasks[i].done = !this.tasks[i].done;
+        },
+    },
+
+    computed: {
+        progress() {
+            let total = this.tasks.length;
+            let done = this.tasks.filter(t => t.done).length;
+
+            return Math.round(done / total * 100) || 0;
+        }
+    },
+
+    watch: {
+        tasks: {
+            deep: true,
+            handler() {
+                localStorage.setItem('tasks', JSON.stringify(this.tasks));
+            },
+        }
+    },
+
+    created() {
+        let tasks = localStorage.getItem('tasks');
+        let json = JSON.parse(tasks);
+
+        this.tasks = Array.isArray(json) ? json : [];
+    }
 }
 </script>
 
